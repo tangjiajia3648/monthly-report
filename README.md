@@ -8,3 +8,11 @@
 
 GitHub Pages 从 main 分支根目录发布。页面表单中的临时修改不会自动保存到仓库；正式更新需要替换文件并提交。
 
+
+## 原型版本
+
+- [最新数字化周报母版](template-weekly.html)，首页同步展示此版本。
+- [原数字化汇报母版 V2](template-v2.html)，保留不覆盖。
+- [原10月上半月汇报](report-2026-10-first-half.html)，保留不覆盖。
+- [切换前首页备份](archive/before-weekly-template-2026-10-23/index.html)。
+- [切换前母版备份](archive/before-weekly-template-2026-10-23/template-v2.html)。
