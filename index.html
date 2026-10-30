@@ -60,7 +60,7 @@ main{padding-top:18px}.period{margin:3px 0 12px}h1{font-size:26px}.executive-sum
 .workload-stage,.formal-delivery-grid>div{height:132px!important;min-height:0!important;padding:12px!important;display:grid!important;grid-template-rows:24px 48px 24px;align-content:center;gap:3px;box-sizing:border-box}.workload-stage>span,.formal-delivery-grid>div>span{font-size:14px!important;line-height:24px!important}.workload-stage>b,.formal-delivery-grid>div>b{font-size:32px!important;line-height:44px!important;margin:0!important}.workload-stage>p{font-size:12px!important;margin:0!important;line-height:20px!important}
 .workload-expanded>.operation-scope,.formal-delivery>p{grid-row:5;margin:0!important;align-self:center;font-size:12px!important;line-height:1.5}
 @media(max-width:850px){.outcome-grid{display:flex!important;flex-direction:column}.outcome-grid>.outcome-card{display:flex!important;flex-direction:column;gap:10px}.outcome-grid .outcome-compare{display:flex!important;flex-direction:column}.driver-item{grid-template-columns:minmax(0,1fr) 85px 110px!important}.workload-expanded,.formal-delivery{grid-template-rows:30px 76px 16px 132px auto!important}}
-</style><style id="compact-subtask-rows">.driver-item{min-height:30px!important;padding:3px 0!important;line-height:1.4!important}.driver-list{gap:0!important}.driver-task{line-height:1.4!important}</style></head><body><main><h1>数字化部10月工作汇报</h1><p class="period">2026年10月份 · 数据截至2026年10月31日</p><section class="panel" id="project-trends"><div class="trend-heading"><h2><span class="num">1</span>重点项目建设</h2><span class="trend-period">截至2026/10/31</span></div>
+</style><style id="compact-subtask-rows">.driver-item{min-height:30px!important;padding:3px 0!important;line-height:1.4!important}.driver-list{gap:0!important}.driver-task{line-height:1.4!important}</style><style id="compact-trend-panel">#project-trends .trend-top{grid-template-columns:minmax(0,1fr) 250px!important;gap:14px!important}#project-trends .trend-top aside{padding-left:12px!important}#trend-driver{padding:7px 10px 3px!important;margin:7px 0 0!important}.driver-caption{margin:2px 0 3px!important}.driver-list{margin:0!important;padding:0!important}.driver-item:last-child{padding-bottom:0!important;min-height:26px!important}#trend-legend button{padding:5px 7px!important;gap:7px!important}.legend-values{width:83px!important}.legend-name{font-size:12px!important}.trend-top aside h3{font-size:16px!important}@media(max-width:950px){#project-trends .trend-top{grid-template-columns:1fr!important}}</style></head><body><main><h1>数字化部10月工作汇报</h1><p class="period">2026年10月份 · 数据截至2026年10月31日</p><section class="panel" id="project-trends"><div class="trend-heading"><h2><span class="num">1</span>重点项目建设</h2><span class="trend-period">截至2026/10/31</span></div>
 <div class="trend-top"><div><h3>主任务进度趋势</h3><div class="trend-filters" id="trend-filters"></div><div id="trend-driver" aria-live="polite"></div><div id="trend-chart"></div></div><aside><h3>当前进度与本期增量 <small></small></h3><div id="trend-legend"></div></aside></div>
 <details class="fold" id="selected-task-fold"><summary id="selected-task-summary">任务明细</summary><div id="trend-detail"></div></details>
 <details class="fold"><summary>重点交付明细 · 当前展示范围22项子任务</summary><div id="trend-all"></div></details>
@@ -91,7 +91,7 @@ function drawDrivers(){
  root.append(el('p','driver-caption',dates[idx-1].slice(5)+'—'+dates[idx].slice(5)+' · '+(idx===2?(g.name==='智察即办场景拓展'?'本期变化来源（9月实际进度20%）':'本期变化来源（与9月比较）'):'历史节点任务进度')));
  if(idx===2&&g.progressTasks?.length){const list=el('div','driver-list');g.tasks.forEach(t=>{const row=el('div','driver-item');row.append(el('span','driver-task',t.name),el('span','driver-progress','已完成 100%'),el('b','driver-contribution','已完成'));list.append(row)});root.append(list);return}
  if(idx===2&&g.confirmedProgress!==undefined){root.append(el('p','trend-reason',g.progressBasis));return}
- if(g.name==='安全建设'&&idx===2)root.append(el('p','trend-reason','本期产出：安全漏洞隐患统计和治理方案编写。'));
+ 
  const changes=g.tasks.map(t=>({t,delta:t.history[idx]-t.history[idx-1]})).filter(c=>c.delta!==0);
  const list=el('div','driver-list');
  changes.forEach(({t,delta})=>{const item=el('div','driver-item'),name=el('span','driver-task',t.name);name.title=t.name;item.append(name,el('span','driver-progress',fmt(t.history[idx-1])+' → '+fmt(t.history[idx])),el('b','driver-contribution',pt(delta*t.weight/g.weightTotal)));list.append(item)});
@@ -128,7 +128,7 @@ function renderDetail(){
  document.getElementById('selected-task-summary').textContent=g.project+' › '+g.name+' · 任务明细（'+dates[idx].slice(5)+''+'）';
  const root=document.getElementById('trend-detail');root.replaceChildren();
  if(idx===2&&g.confirmedProgress!==undefined)root.append(el('p','trend-reason',g.progressBasis));
- if(g.name==='安全建设'&&idx===2)root.append(el('p','trend-reason','本期产出：安全漏洞隐患统计和治理方案编写。'));
+ 
  const changes=g.tasks.map(t=>({...t,delta:idx?t.history[idx]-t.history[idx-1]:0}));
  const completed=idx===2?g.tasks.filter(t=>t.actual>='2026-10-01'&&t.actual<=trendData.cutoff):[];
  if(idx===2&&g.confirmedProgress===undefined)root.append(el('p','trend-reason',completed.length?'本期已完成：'+completed.map(t=>t.name+'（'+t.actual.slice(5)+'）').join('；'):'本期没有登记实际完成的子任务；进行中任务见下表。'));
